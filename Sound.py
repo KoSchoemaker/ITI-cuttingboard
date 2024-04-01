@@ -1,14 +1,16 @@
 import pygame
 from PressureBoard import PressureBoard
 import keyboard
-
+import time
 # handles sound and music layering, volume and genres
 class Sound:
     def __init__(self) -> None:
         pygame.mixer.pre_init(44100, -16, 1, 4096)
         pygame.mixer.init()
 
+        # current genre
         self.selectedGenre = 0
+        # add another array in here and it counts as a different genre
         self.genreFiles = [
             [
                 'music/drum.wav',
@@ -19,7 +21,10 @@ class Sound:
                 'music/synth.wav',
             ]
         ]
+        # list of all the current channels
         self.channels = []
+        # starting sound volume
+        self.volume = 1
         self._playAll()
 
     # possibly update sounds based on pressure board state
@@ -42,20 +47,29 @@ class Sound:
 
     # change the volume
     def changeVolume(self, volume: int):
-        # loop over all channels and set volume
-        pass
+        self.volume = volume
+        for channel in self.channels:
+            if channel.get_volume() > 0.1:
+                channel.set_volume(volume)
 
+    # need to be two loops because timing is important
     def _playAll(self):
         fileNames = self.genreFiles[self.selectedGenre]
-        for i, soundName in enumerate(fileNames):
-            sound = pygame.mixer.Sound(soundName)
-            channel =  pygame.mixer.Channel(i)
-            channel.play(sound, -1)
-            channel.set_volume(1)
-            self.channels.append(channel)
 
-    def _stopAll():
-        pass
+        channelList = []
+        soundList = []
+        for i, soundName in enumerate(fileNames):
+            self.channels.append(pygame.mixer.Channel(i))
+            soundList.append(pygame.mixer.Sound(soundName))
+
+        for i, sound in enumerate(soundList):
+            self.channels[i].play(sound, -1)
+
+    def _stopAll(self):
+        for channel in self.channels:
+            channel.fadeout(1000)
+        self.channels = []
+        time.sleep(1)
 
 if __name__ == "__main__":
     sound = Sound()
@@ -66,3 +80,6 @@ if __name__ == "__main__":
             sound.channels[0].set_volume(0.5)
         if keyboard.is_pressed('3'):
             sound.channels[0].set_volume(1)
+
+        time.sleep(8)
+        sound.changeGenreForward()

@@ -11,8 +11,12 @@ class Sound:
         self.selectedGenre = 0
         self.genreFiles = [
             [
+                'music/drum.wav',
+                'music/cowbell.wav',
+                'music/horn.wav',
                 'music/melody.wav',
-                'music/bass.wav'
+                'music/guitar.wav',
+                'music/synth.wav',
             ]
         ]
         self.channels = []

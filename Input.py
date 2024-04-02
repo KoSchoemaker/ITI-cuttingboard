@@ -7,9 +7,9 @@ from gpiozero import MCP3008, Button
 class Input:
     def __init__(self) -> None:
         if Settings.isRaspberryPi:
-            self.volumeControl = MCP3008(channel=6, device=0)
+            self.volumeControl = MCP3008(channel=1, device=0)
             self.lightControl = MCP3008(channel=7, device=0)
-            self.genreForward = Button(4)
+            self.genreForward = Button(15)
             self.genreBackward = Button(5)
         else:
             # if no raspberry pi is connected, simulate sensor connection
@@ -19,6 +19,7 @@ class Input:
             self.genreBackward = SimpleNamespace(isPressed=False)
         self.volume = 0.0
         self.lightIntensity = 0.0
+        self.volumeThreshold = 0.1
 
     # get current value from an analogue sensor
     def getValue(sensor: MCP3008):
@@ -39,7 +40,9 @@ class Input:
 
     # True/False if volume was changed, based on calculateVolume() above
     def isVolumeChanged(self):
-        pass
+        value = self.volumeControl.value
+        abs(value - self.volume) > self.volumeThreshold
+        self.volume = value
 
     # get the volume, based on calculateVolume()
     def getVolume(self):

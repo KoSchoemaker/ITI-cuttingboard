@@ -27,10 +27,6 @@ class PressureBoard:
             [self.pressure1.value, self.pressure2.value, self.pressure3.value], 
             [self.pressure4.value, self.pressure5.value, self.pressure6.value]
         ]
-    
-    # sensor values fluctuate a lot, use mean/average of x values to get better readings
-    def getMeanValues():
-        pass
 
 if __name__ == "__main__":
     pb = PressureBoard()

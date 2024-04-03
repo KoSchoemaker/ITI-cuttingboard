@@ -27,11 +27,11 @@ class Input:
 
     # True/False sense if the genre forward button is pressed. Only the moment when pressed does this return True
     def isGenreForward(self):
-        return self.genreForward.isPressed
+        return self.genreForward.is_pressed
 
     # True/False sense if the genre backward button is pressed. Only the moment when pressed does this return True
     def isGenreBackward(self):
-        return self.genreBackward.isPressed
+        return self.genreBackward.is_pressed
 
     # calculate if volume is changed based on previous volume. This is needed because potentiometer flucutates a lot
     # and raw sensor value cannot really be trusted

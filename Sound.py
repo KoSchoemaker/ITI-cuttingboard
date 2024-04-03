@@ -77,7 +77,7 @@ class Sound:
         for channel in self.channels:
             channel.fadeout(1000)
         self.channels = []
-        time.sleep(1)
+        time.sleep(1.5) # ideally no sleep statements, it's blocking. But here it also serves function of blocking button readings, which is good
 
 if __name__ == "__main__":
     sound = Sound()

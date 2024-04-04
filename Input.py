@@ -7,14 +7,14 @@ from gpiozero import MCP3008, Button
 class Input:
     def __init__(self) -> None:
         if Settings.isRaspberryPi:
-            self.volumeControl = MCP3008(channel=6, device=0)
+            self.volumeControl = MCP3008(channel=0, device=0)
             self.lightControl = MCP3008(channel=7, device=0)
             self.genreControl = Button(2)
         else:
             # if no raspberry pi is connected, simulate sensor connection
             self.volumeControl = SimpleNamespace(value=0)
             self.lightControl = SimpleNamespace(value=0)
-            # self.genreControl = SimpleNamespace(isPressed=False)
+            self.genreControl = SimpleNamespace(is_pressed=False)
         self.volume = 0.0
         self.lightIntensity = 0.0
         self.volumeThreshold = 0.1
@@ -25,10 +25,9 @@ class Input:
     def getValue(sensor: MCP3008):
         return sensor.value
 
-    # True/False sense if the genre forward button is pressed. Only the moment when pressed does this return True
-    def isGenreChange(self):
+    # True/False sense if the genre button is pressed. Only the moment when pressed does this return True
+    def isGenreChanged(self):
         return self.genreControl.is_pressed != self.genreState
-        pass
 
     # True/False if volume was changed, based on calculateVolume() above
     def isVolumeChanged(self):
@@ -43,7 +42,7 @@ class Input:
         return self.volume
 
     # True/False if light intensity was changed, based on calculateLightIntensity() above
-    def isLightChanged():
+    def isLightChanged(self):
         value = self.lightControl.value
         changed = abs(value - self.lightIntensity) > self.lightThreshold
         if changed:

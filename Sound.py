@@ -32,7 +32,7 @@ class Sound:
         values = pressureboard.getValues()
         for i, value in enumerate(values):
             if value > 0.4:
-                self.channels[i].set_volume(1)
+                self.channels[i].set_volume(self.volume)
             else:
                 self.channels[i].set_volume(0)
 
@@ -40,14 +40,8 @@ class Sound:
         #more or less sound
         pass
 
-    # change the genre backward
-    def changeGenreBackward(self):
-        self.selectedGenre = (self.selectedGenre - 1) % len(self.genreFiles)
-        self._stopAll()
-        self._playAll()
-
     # change the genre forward
-    def changeGenreForward(self):
+    def changeGenre(self):
         self.selectedGenre = (self.selectedGenre + 1) % len(self.genreFiles)
         self._stopAll()
         self._playAll()
@@ -69,7 +63,7 @@ class Sound:
             self.channels.append(pygame.mixer.Channel(i))
             soundList.append(pygame.mixer.Sound(soundName))
 
-        self.changeVolume(0)
+        self.changeVolume(self.volume)
         
         for i, sound in enumerate(soundList):
             self.channels[i].play(sound, -1)

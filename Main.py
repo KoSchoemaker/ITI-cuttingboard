@@ -16,10 +16,11 @@ while True:
     if input.isGenreChanged():
         sound.changeGenre()
 
-    # if input.isVolumeChanged():
-    #     sound.changeVolume(input.volume)
+    if input.isVolumeChanged():
+        sound.changeVolume(input.volume)
+
     sound.updateSound(pressureboard)
-    # light.updateLight(pressureboard)
+    light.updateLight(pressureboard)
 
     # needs to be deleted later, but useful for debugging 
     # time.sleep(0.3)

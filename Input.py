@@ -14,10 +14,11 @@ class Input:
             # if no raspberry pi is connected, simulate sensor connection
             self.volumeControl = SimpleNamespace(value=0)
             self.lightControl = SimpleNamespace(value=0)
-            self.genreControl = SimpleNamespace(isPressed=False)
+            # self.genreControl = SimpleNamespace(isPressed=False)
         self.volume = 0.0
         self.lightIntensity = 0.0
         self.volumeThreshold = 0.1
+        self.lightThreshold = 0.1
         self.genreState = self.genreControl.is_pressed
 
     # get current value from an analogue sensor
@@ -27,10 +28,6 @@ class Input:
     # True/False sense if the genre forward button is pressed. Only the moment when pressed does this return True
     def isGenreChange(self):
         return self.genreControl.is_pressed != self.genreState
-
-    # calculate if volume is changed based on previous volume. This is needed because potentiometer flucutates a lot
-    # and raw sensor value cannot really be trusted
-    def calculateVolume(self):
         pass
 
     # True/False if volume was changed, based on calculateVolume() above
@@ -44,15 +41,14 @@ class Input:
     # get the volume, based on calculateVolume()
     def getVolume(self):
         return self.volume
-    
-    # calculate if light intensity is changed based on previous value. This is needed because potentiometer flucutates a lot
-    # and raw sensor value cannot really be trusted
-    def calculateLightIntensity(self):
-        pass
 
     # True/False if light intensity was changed, based on calculateLightIntensity() above
     def isLightChanged():
-        pass
+        value = self.lightControl.value
+        changed = abs(value - self.lightIntensity) > self.lightThreshold
+        if changed:
+            self.lightintensity = value
+        return changed
 
     # get the volume, based on calculateLightIntensity()
     def getLightIntensity(self):

@@ -7,14 +7,17 @@ import requests
 # handles lighting and communication with WLED and the ESP32
 class Light:
     def __init__(self) -> None:
-        pass
+        self.lastUpdateTime = time.now()
 
     # possibly update lighting based on pressure board state
     def updateLight(self, pressureBoard: PressureBoard):
-        val = pressureBoard.getValues()[0][1]
-        print(val)
+        # if time.now() == self.lastUpdateTime:
+        #     return
+
         wled_device_ip = "192.168.12.178"
         api_endpoint = f"http://{wled_device_ip}/json/state"
+
+        for i, value in enumerate(pressureBoard.getValues()):
 
         # json_data = {"on":True, "bri":0, "col":[[255,0,0]]}
         json_data = {"seg":[{"col":[[0,100,val*255]]}]}

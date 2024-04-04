@@ -24,19 +24,18 @@ class Sound:
         # list of all the current channels
         self.channels = []
         # starting sound volume
-        self.volume = 1.0
+        self.volume = 0.0
         self._playAll()
 
     # possibly update sounds based on pressure board state
     def updateSound(self, pressureboard: PressureBoard):
         values = pressureboard.getValues()
-        first = values[0][2]
-        if first > 0.3:
-            self.channels[0].set_volume(0)
-            self.channels[4].set_volume(0)
-        else:
-            self.channels[0].set_volume(1)
-            self.channels[4].set_volume(1)
+        for i, value in enumerate(values):
+            if value > 0.4:
+                self.channels[i].set_volume(1)
+            else:
+                self.channels[i].set_volume(0)
+
         #detect change in area/pressure
         #more or less sound
         pass
@@ -70,6 +69,8 @@ class Sound:
             self.channels.append(pygame.mixer.Channel(i))
             soundList.append(pygame.mixer.Sound(soundName))
 
+        self.changeVolume(0)
+        
         for i, sound in enumerate(soundList):
             self.channels[i].play(sound, -1)
 

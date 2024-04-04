@@ -8,7 +8,7 @@ import numpy as np
 class PressureBoard:
     def __init__(self) -> None:
         if Settings.isRaspberryPi:
-            self.pressure1 = MCP3008(channel=0, device=0)
+            self.pressure1 = MCP3008(channel=6, device=0)
             self.pressure2 = MCP3008(channel=1, device=0)
             self.pressure3 = MCP3008(channel=2, device=0)
             self.pressure4 = MCP3008(channel=3, device=0)
@@ -24,15 +24,10 @@ class PressureBoard:
             self.pressure6 = SimpleNamespace(value=6)
         self.boardList = []
         self.amountOfPreviousBoards = 5
-        self.i = 0
 
     # get the values 0.0-1.0 of the six sensors in a 2d array corresponding to the physical layout on the board
     def getValues(self):
-        self.i = self.i # variable exists for development/debugging, can be removed later TODO
-        return np.array([
-            [self.pressure1.value + self.i, self.pressure2.value + self.i, self.pressure3.value + self.i], 
-            [self.pressure4.value + self.i, self.pressure5.value + self.i, self.pressure6.value + self.i]
-        ])
+        return [self.pressure1.value, self.pressure2.value, self.pressure3.value, self.pressure4.value, self.pressure5.value, self.pressure6.value]
 
     def getAveragePressureBoard(self):
         board = self.getValues()

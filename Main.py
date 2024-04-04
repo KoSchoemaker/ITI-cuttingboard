@@ -13,18 +13,19 @@ light = Light()
 
 # main loop
 while True:
-    if input.isGenreBackward():
-        sound.changeGenreBackward()
+    # if input.isGenreBackward():
+    #     sound.changeGenreBackward()
 
-    if input.isGenreForward():
-        sound.changeGenreForward()
+    # if input.isGenreForward():
+    #     print('forward')
+    #     sound.changeGenreForward()
 
     if input.isVolumeChanged():
         sound.changeVolume(input.volume)
 
     sound.updateSound(pressureboard)
-    light.updateLight(pressureboard)
+    # light.updateLight(pressureboard)
 
     # needs to be deleted later, but useful for debugging 
     time.sleep(0.3)
-    print('loop')
+    # print('loop')

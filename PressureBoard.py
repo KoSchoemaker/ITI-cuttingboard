@@ -43,10 +43,6 @@ class PressureBoard:
 
 if __name__ == "__main__":
     pb = PressureBoard()
-    print(pb.getAveragePressureBoard())
-    print(pb.getAveragePressureBoard())
-    print(pb.getAveragePressureBoard())
-    print(pb.getAveragePressureBoard())
-    print(pb.getAveragePressureBoard())
-    print(pb.getAveragePressureBoard())
-    print(pb.getAveragePressureBoard())
+    while True:
+        print(list(pb.getValues()), end="\r")
+    # print(pb.getAveragePressureBoard())

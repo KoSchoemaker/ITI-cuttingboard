@@ -7,8 +7,8 @@ from gpiozero import MCP3008, Button
 class Input:
     def __init__(self) -> None:
         if Settings.isRaspberryPi:
-            self.volumeControl = MCP3008(channel=0, device=0)
-            self.lightControl = MCP3008(channel=6, device=0)
+            self.volumeControl = MCP3008(channel=6, device=0)
+            self.lightControl = MCP3008(channel=0, device=0)
             self.genreControl = Button(2)
         else:
             # if no raspberry pi is connected, simulate sensor connection
@@ -60,6 +60,6 @@ class Input:
 if __name__ == "__main__":
     pb = Input()
     while True:
-        print(pb.isGenreChanged())
-        time.sleep(1)
+        print(pb.genreControl.is_pressed)
+        # time.sleep(1)
     # print(pb.getAveragePressureBoard())

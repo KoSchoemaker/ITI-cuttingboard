@@ -27,16 +27,16 @@ class Sound:
         # starting sound volume
         self.volume = 0.0
         self.soundPressureThreshold = 0.4
-        self.soundPersistenceTime = 100 #in ticks
-        self.pressureBoardTimeList = []
+        self.soundPersistenceTime = 1000 #in ticks
+        self.pressureBoardTimeList = [0,0,0,0,0,0]
         self._playAll()
 
     # possibly update sounds based on pressure board state
     def updateSound(self, pressureboard: PressureBoard):
         values = pressureboard.getValues()
         for i, value in enumerate(values):
-            if self.getActivation():
-                self.channels[i].set_volume(self.volume)
+            if self.getActivation(i, value):
+                self.channels[i].set_volume(1)
             else:
                 self.channels[i].set_volume(0)
 
@@ -68,7 +68,7 @@ class Sound:
             self.channels.append(pygame.mixer.Channel(i))
             soundList.append(pygame.mixer.Sound(soundName))
 
-        self.changeVolume(self.volume)
+        # self.changeVolume(self.volume)
         
         for i, sound in enumerate(soundList):
             self.channels[i].play(sound, -1)
@@ -82,10 +82,11 @@ class Sound:
     # need to persist sounds for a while after threshold was reached
     def getActivation(self, index, value):
         previousBoardTime = self.pressureBoardTimeList[index]
-        if previousBoardTime <= 0:
-            return False
-        elif value > self.soundPressureThreshold and previousBoardTime != self.soundPersistenceTime:
+
+        if value > self.soundPressureThreshold and previousBoardTime != self.soundPersistenceTime:
             boardTime = self.soundPersistenceTime
+        elif previousBoardTime <= 0:
+            return False
         else:
             boardTime = previousBoardTime - 1
         self.pressureBoardTimeList[index] = boardTime

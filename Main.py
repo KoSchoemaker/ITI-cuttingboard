@@ -10,7 +10,7 @@ pressureboard = PressureBoard()
 input = Input()
 sound = Sound()
 light = Light()
-
+sound.volume = input.volumeControl.value
 # main loop
 while True:
     pressureboard.loadValues() # request new values from the pressure sensors for this tick

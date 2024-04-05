@@ -1,5 +1,5 @@
 import Settings
-
+import time
 from types import SimpleNamespace
 from gpiozero import MCP3008, Button
 
@@ -8,7 +8,7 @@ class Input:
     def __init__(self) -> None:
         if Settings.isRaspberryPi:
             self.volumeControl = MCP3008(channel=0, device=0)
-            self.lightControl = MCP3008(channel=7, device=0)
+            self.lightControl = MCP3008(channel=6, device=0)
             self.genreControl = Button(2)
         else:
             # if no raspberry pi is connected, simulate sensor connection
@@ -27,7 +27,11 @@ class Input:
 
     # True/False sense if the genre button is pressed. Only the moment when pressed does this return True
     def isGenreChanged(self):
-        return self.genreControl.is_pressed != self.genreState
+        pressed = self.genreControl.is_pressed
+        changed = pressed != self.genreState
+        if changed:
+            self.genreState = pressed
+        return changed
 
     # True/False if volume was changed, based on calculateVolume() above
     def isVolumeChanged(self):
@@ -56,5 +60,6 @@ class Input:
 if __name__ == "__main__":
     pb = Input()
     while True:
-        pb.isVolumeChanged()
+        print(pb.isGenreChanged())
+        time.sleep(1)
     # print(pb.getAveragePressureBoard())

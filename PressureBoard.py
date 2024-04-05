@@ -24,7 +24,8 @@ class PressureBoard:
             self.pressure6 = SimpleNamespace(value=0.6)
         self.boardList = []
         self.amountOfPreviousBoards = 5
-        self.values = self.loadValues()
+        self.values = []
+        self.loadValues()
 
     # get the values 0.0-1.0 of the six sensors in a 2d array corresponding to the physical layout on the board
     def getValues(self):
@@ -36,4 +37,5 @@ class PressureBoard:
 if __name__ == "__main__":
     pb = PressureBoard()
     while True:
-        print(list(pb.getValues()), end="\r")
+        pb.loadValues()
+        print(pb.getValues(), end="\r")

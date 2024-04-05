@@ -19,7 +19,6 @@ class Input:
         self.lightIntensity = 0.0
         self.volumeThreshold = 0.1
         self.lightThreshold = 0.1
-        self.genreState = self.genreControl.is_pressed
 
     # get current value from an analogue sensor
     def getValue(sensor: MCP3008):
@@ -27,11 +26,7 @@ class Input:
 
     # True/False sense if the genre button is pressed. Only the moment when pressed does this return True
     def isGenreChanged(self):
-        pressed = self.genreControl.is_pressed
-        changed = pressed != self.genreState
-        if changed:
-            self.genreState = pressed
-        return changed
+        return self.genreControl.is_pressed
 
     # True/False if volume was changed, based on calculateVolume() above
     def isVolumeChanged(self):

@@ -20,6 +20,14 @@ class Sound:
                 'music/melody.wav',
                 'music/guitar.wav',
                 'music/synth.wav',
+            ],
+            [                
+                'music/drum.wav',
+                'music/cowbell.wav',
+                'music/horn.wav',
+                'music/melody.wav',
+                'music/guitar.wav',
+                'music/synth.wav'
             ]
         ]
         # list of all the current channels

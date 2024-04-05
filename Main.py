@@ -13,11 +13,12 @@ light = Light()
 
 # main loop
 while True:
+    pressureboard.loadValues() # request new values from the pressure sensors for this tick
     if input.isGenreChanged():
         sound.changeGenre()
 
     if input.isVolumeChanged():
-        sound.changeVolume(input.volume)
+        sound.changeVolume(input.volume, pressureboard)
 
     sound.updateSound(pressureboard)
     light.updateLight(pressureboard)

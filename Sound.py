@@ -1,5 +1,6 @@
 import pygame
 from PressureBoard import PressureBoard
+import Settings
 
 import time
 # handles sound and music layering, volume and genres
@@ -25,13 +26,16 @@ class Sound:
         self.channels = []
         # starting sound volume
         self.volume = 0.0
+        self.soundPressureThreshold = 0.4
+        self.soundPersistenceTime = 100 #in ticks
+        self.pressureBoardTimeList = []
         self._playAll()
 
     # possibly update sounds based on pressure board state
     def updateSound(self, pressureboard: PressureBoard):
         values = pressureboard.getValues()
         for i, value in enumerate(values):
-            if value > 0.4:
+            if self.getActivation():
                 self.channels[i].set_volume(self.volume)
             else:
                 self.channels[i].set_volume(0)
@@ -47,10 +51,11 @@ class Sound:
         self._playAll()
 
     # change the volume
-    def changeVolume(self, volume: int):
+    def changeVolume(self, volume: int, pressureBoard: PressureBoard):
         self.volume = volume
-        for channel in self.channels:
-            if channel.get_volume() > 0.1:
+        values = pressureBoard.getValues()
+        for i, channel in enumerate(self.channels):
+            if self.getActivation(i, values[i]):
                 channel.set_volume(volume)
 
     # need to be two loops because timing is important
@@ -73,6 +78,18 @@ class Sound:
             channel.fadeout(1000)
         self.channels = []
         time.sleep(1.5) # ideally no sleep statements, it's blocking. But here it also serves function of blocking button readings, which is good
+
+    # need to persist sounds for a while after threshold was reached
+    def getActivation(self, index, value):
+        previousBoardTime = self.pressureBoardTimeList[index]
+        if previousBoardTime <= 0:
+            return False
+        elif value > self.soundPressureThreshold and previousBoardTime != self.soundPersistenceTime:
+            boardTime = self.soundPersistenceTime
+        else:
+            boardTime = previousBoardTime - 1
+        self.pressureBoardTimeList[index] = boardTime
+        return True
 
 if __name__ == "__main__":
     sound = Sound()

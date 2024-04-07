@@ -19,7 +19,7 @@ class PressureBoard:
             self.pressure1 = SimpleNamespace(value=0.5)
             self.pressure2 = SimpleNamespace(value=0.5)
             self.pressure3 = SimpleNamespace(value=0.5)
-            self.pressure4 = SimpleNamespace(value=0.5)
+            self.pressure4 = SimpleNamespace(value=0.8)
             self.pressure5 = SimpleNamespace(value=0.5)
             self.pressure6 = SimpleNamespace(value=0.6)
         self.boardList = []

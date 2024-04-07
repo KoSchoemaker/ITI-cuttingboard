@@ -51,7 +51,7 @@ class Sound:
         self._playAll()
 
     # change the volume
-    def changeVolume(self, pressureBoard: PressureBoard, volume: int):
+    def changeVolume(self, pressureBoard: PressureBoard, volume: float):
         self.volume = volume
         values = pressureBoard.getValues()
         for i, channel in enumerate(self.channels):

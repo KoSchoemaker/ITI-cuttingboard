@@ -20,5 +20,5 @@ while True:
     if input.isVolumeChanged(): # change sound volume if volume knob is turned more than input.volumeThreshold
         sound.changeVolume(pressureboard, input.volume) # needs pressureboard because only activated sounds should have volume changed
 
-    sound.updateSound(pressureboard)    # update sound based on pressure input
-    light.updateLight(pressureboard)    # update light based on pressure input
+    sound.updateSound(pressureboard)                                # update sound based on pressure input
+    light.updateLight(pressureboard, input.lightControl.value)      # update light based on pressure input and light control

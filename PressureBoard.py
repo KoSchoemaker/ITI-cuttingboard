@@ -16,10 +16,10 @@ class PressureBoard:
             self.pressure6 = MCP3008(channel=7, device=0)
         else:
             # if no raspberry pi is connected, simulate sensor connection
-            self.pressure1 = SimpleNamespace(value=0.1)
-            self.pressure2 = SimpleNamespace(value=0.2)
-            self.pressure3 = SimpleNamespace(value=0.3)
-            self.pressure4 = SimpleNamespace(value=0.4)
+            self.pressure1 = SimpleNamespace(value=0.5)
+            self.pressure2 = SimpleNamespace(value=0.5)
+            self.pressure3 = SimpleNamespace(value=0.5)
+            self.pressure4 = SimpleNamespace(value=0.5)
             self.pressure5 = SimpleNamespace(value=0.5)
             self.pressure6 = SimpleNamespace(value=0.6)
         self.boardList = []

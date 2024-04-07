@@ -17,7 +17,6 @@ class Light:
             self.currentTick = self.currentTick + 1
             return
         self.currentTick = 0
-        print('now')
         
         r, g, b = 0, 0, 0
         values = pressureBoard.getValues()
@@ -47,7 +46,7 @@ class Light:
         try:
             requests.post(endpoint, data=json.dumps(json_data),headers=headers, timeout=1)
         except Exception as e:
-            # print(e)
+            print(e)
             pass
         
 if __name__ == "__main__":

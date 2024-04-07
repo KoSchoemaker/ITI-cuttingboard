@@ -12,7 +12,7 @@ class Input:
             self.genreControl = Button(2)
         else:
             # if no raspberry pi is connected, simulate sensor connection
-            self.volumeControl = SimpleNamespace(value=0)
+            self.volumeControl = SimpleNamespace(value=1)
             self.lightControl = SimpleNamespace(value=0)
             self.genreControl = SimpleNamespace(is_pressed=False)
         self.volume = 0.0

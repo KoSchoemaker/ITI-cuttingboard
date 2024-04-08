@@ -11,7 +11,7 @@ class Light:
         self.updateHowManyTicks = 100
         self.currentTick = 0
         self.multiplyer = 200
-        self.brightnessMultiplyer = 255
+        self.brightnessMultiplyer = 18
 
     # possibly update lighting based on pressure board state
     def updateLight(self, pressureBoard: PressureBoard, lightIntensity: float):
@@ -29,11 +29,10 @@ class Light:
             g = min(values[1] * multiplyer + values[4] * multiplyer, 255)
             b = min(values[2] * multiplyer + values[5] * multiplyer, 255)
             
-        brightness = int(min(max(max(values) * self.brightnessMultiplyer - (1 - lightIntensity) * 255, 0), 255))
-        
-        # json_data = {"on":True, "bri":0, "col":[[255,0,0]]}
-        jsonData = {"seg":[{"col":[[r, g, b]], "bri": brightness}]}
-        print(jsonData)
+        brightness = int(min(max(max(values) * self.brightnessMultiplyer - (1 - lightIntensity) * 15, 0), 255))
+
+        # jsonData = {"on":True, "bri":255, "col":[[255,0,0]]}
+        jsonData = {"seg":[{"col":[[int(r), int(g), int(b)]], "bri": brightness}]}
 
         device = "192.168.12.178"
         endpoint = f"http://{device}/json/state"
@@ -41,7 +40,7 @@ class Light:
         try:
             requests.post(endpoint, data=json.dumps(jsonData),headers=headers, timeout=1)
         except Exception as e:
-            # print(e)
+            print(e)
             pass
         
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ import requests
 # handles lighting and communication with WLED and the ESP32
 class Light:
     def __init__(self) -> None:
-        self.updateHowManyTicks = 100
+        self.updateHowManyTicks = 10
         self.currentTick = 0
         self.multiplyer = 200
         self.brightnessMultiplyer = 18

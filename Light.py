@@ -11,7 +11,8 @@ class Light:
         self.updateHowManyTicks = 10
         self.currentTick = 0
         self.multiplyer = 200
-        self.brightnessMultiplyer = 18
+        self.brightnessMultiplyer = 100
+        self.brightnessButtonMultiplyer = 30
 
     # possibly update lighting based on pressure board state
     def updateLight(self, pressureBoard: PressureBoard, lightIntensity: float):
@@ -20,6 +21,7 @@ class Light:
             return
         self.currentTick = 0
         
+
         r, g, b = 0, 0, 0
         values = pressureBoard.getValues()
 
@@ -29,7 +31,10 @@ class Light:
             g = min(values[1] * multiplyer + values[4] * multiplyer, 255)
             b = min(values[2] * multiplyer + values[5] * multiplyer, 255)
             
-        brightness = int(min(max(max(values) * self.brightnessMultiplyer - (1 - lightIntensity) * 15, 0), 255))
+        if lightIntensity < 0.05:
+            brightness = 0
+        else:
+            brightness = int(min(max(max(values) * self.brightnessMultiplyer - (1 - lightIntensity) * 90, 0), 255))
 
         # jsonData = {"on":True, "bri":255, "col":[[255,0,0]]}
         jsonData = {"seg":[{"col":[[int(r), int(g), int(b)]], "bri": brightness}]}
